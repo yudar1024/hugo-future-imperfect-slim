@@ -1,7 +1,8 @@
 [date_format]
   other = "January 2, 2006"
 [postreadingtime]
-  other = "minute read"
+  one = "1 minute read"
+  other = "{{ .Count }} minutes read"
 [recent_posts]
   other = "Recent posts"
 [see_more]
@@ -25,19 +26,16 @@
 [learn_more]
   other = "Learn More"
 [repliestext]
-  other = "Replies typically within"
-[hours]
-  other = "hours"
+  one = "Replies typically within 1 hour."
+  other = "Replies typically within {{ .Count }} hours."
 [submit]
   other = "Submit"
-[404_oops]
-  other = "Oops, the page you're<br/>looking for does not exist."
-[404_backorreport]
-  other = "You may want to head back to the homepage.<br/>If you think something is broken, report a problem."
-[404_gotohome]
-  other = "Go To Homepage"
-[404_report]
-  other = "Report A Problem"
+[404_pagenotfound]
+  other = "Page Not Found"
+[404_sorry]
+  other = "Sorry, but the page you were trying to view does not exist."
+[404_goback]
+  other = "Go Back"
 [blog]
   other = "Blog"
 [contact]
@@ -48,3 +46,29 @@
   other = "Previous Page"
 [attribution]
   other = "Theme: <a href='https://github.com/pacollins/hugo-future-imperfect-slim' target='_blank' rel='noopener'>Hugo Future Imperfect Slim</a><br>A <a href='https://html5up.net/future-imperfect' target='_blank' rel='noopener'>HTML5 UP port</a> | Powered by <a href='https://gohugo.io/' title='{{ .Site.Hugo.Version }}' target='_blank' rel='noopener'>Hugo</a>"
+[comments]
+  other = "Comments"
+[say_sth]
+  other = "Say something"
+[name]
+  other = "Your name (Required)"
+[email]
+  other = "Your email address (Required for Gravatar)"
+[website]
+  other = "Your website"
+[body]
+  other = "Your message. Feel free to use Markdown (Google 'Markdown Cheat Sheet')."
+[no_comment]
+  other = "Nothing yet."
+[reply]
+  other = "Reply"
+[btn_reset]
+  other = "Reset"
+[btn_submitted]
+  other = "Submitted"
+[btn_sumbit]
+  other = "Submit"
+[error_msg]
+  other = "Sorry, there was an error with your submission.  Please make sure all required fields have been completed and try again."
+[success_msg]
+  other = "Thanks for your comment! It will be shown on the site once it has been approved."
