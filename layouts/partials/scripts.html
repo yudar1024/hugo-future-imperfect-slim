@@ -6,18 +6,18 @@
   {{ end }}
   {{ range .Site.Params.jsFiles }}
     {{ if eq . "default" }}
-    <script src="//code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.js"></script>
+      <script src="//code.jquery.com/jquery-3.4.1.min.js"></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.js"></script>
       {{ $util := resources.Get "js/util.js" }}
       {{ $main := resources.Get "js/main.js" }}
       {{ $jsSlice := slice $util $main }}
       {{ if $.Site.Params.staticman.enabled }}
         {{ $jsSlice = $jsSlice | append (resources.Get "js/staticman.js" | resources.ExecuteAsTemplate "js/staticman.js" $.Site.Params.staticman) }}
       {{ end }}
-      {{ $js := $jsSlice | resources.Concat "js/localbundle.js" | resources.Minify | resources.Fingerprint }}
-    <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}">
+      {{ $js := $jsSlice | resources.Concat "js/localbundle.js" | minify | fingerprint }}
+      <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
     {{ else }}
-      <script src="{{ . | relURL }}"></script>
+      <script src="{{ (resources.Get .).RelPermalink }}"></script>
     {{ end }}
   {{ end }}
 {{ else }}
@@ -37,10 +37,10 @@
         {{ $jsSlice = $jsSlice | append (resources.Get "js/staticman.js" | resources.ExecuteAsTemplate "js/staticman.js" $.Site.Params.staticman) }}
         }
       {{ end }}
-      {{ $js := $jsSlice | resources.Concat "js/bundle.js" | resources.Minify | resources.Fingerprint }}
+      {{ $js := $jsSlice | resources.Concat "js/bundle.js" | minify | fingerprint }}
       <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
     {{ else }}
-      <script src="{{ . | relURL }}"></script>
+      <script src="{{ (resources.Get .).RelPermalink }}"></script>
     {{ end }}
   {{ end }}
 {{ end }}

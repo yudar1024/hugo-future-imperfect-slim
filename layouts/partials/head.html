@@ -10,34 +10,30 @@
     {{ if .Site.Params.highlightjs }}<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/{{ .Site.Params.highlightjsTheme | default "default" }}.min.css">{{ end }}
     {{ range .Site.Params.cssFiles }}
       {{ if eq . "default" }}
-        <link rel="stylesheet" href="{{ "css/normalize.css" | relURL }}">
+        {{ $normalizeCSS = resources.Get "css/normalize.css" }}
+        <link rel="stylesheet" href="{{ $normalizeCSS.RelPermalink }}">
         <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Raleway:400,800,900|Source+Sans+Pro:400,700">
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css">
         <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.10.1/css/all.min.css">
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" />
         {{ $mainCSSOptions := (dict "targetPath" "css/main.min.css" "outputStyle" "compressed") }}
-        {{ $main := resources.Get "scss/main.scss" | resources.ToCSS $mainCSSOptions | resources.Fingerprint }}
+        {{ $main := resources.Get "scss/main.scss" | toCSS $mainCSSOptions | fingerprint }}
         <link rel="stylesheet" href="{{ $main.RelPermalink }}" integrity="{{ $main.Data.Integrity }}">
       {{ else }}
-        <link rel="stylesheet" href="{{ . | relURL }}">
+        <link rel="stylesheet" href="{{ (resources.Get .).RelPermalink }}">
       {{ end }}
     {{ end }}
   {{ else }}
-    {{ range .Site.Params.cssFiles }}
-      {{ if eq . "default" }}
-        {{ $cssSlice := resources.Match "css/*.css" }}
-        {{ $cssSlice = $cssSlice | append (resources.Get "scss/main.scss" | resources.ToCSS) }}
-        {{ if $.Site.Params.highlightjs }}
-          {{ $hlTh := $.Site.Params.highlightjsTheme | default "default" }}
-          {{ $hlThCSS := printf "css/styles/%s.css" $hlTh }}
-          {{ $cssSlice = $cssSlice | append (resources.Get $hlThCSS) }}
-        {{ end }}
-        {{ $css := $cssSlice | resources.Concat "css/bundle.css" | resources.Minify | resources.Fingerprint }}
-        <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
-      {{ else }}
-        <link rel="stylesheet" href="{{ . | relURL }}">
-      {{ end }}
+    {{ $cssSlice := slice }}
+    {{ if .Site.Params.highlightjs }}
+      {{ $hlTh := $.Site.Params.highlightjsTheme | default "default" }}
+      {{ $hlThCSS := printf "css/styles/%s.css" $hlTh }}
+      {{ $cssSlice = $cssSlice | append (resources.Get $hlThCSS) }}
     {{ end }}
+    {{ $cssSlice = $cssSlice | append (resources.Match "css/*.css") }}
+    {{ $cssSlice = $cssSlice | append (resources.Get "scss/main.scss" | toCSS) }}
+    {{ $css := $cssSlice | resources.Concat "css/bundle.css" | minify | fingerprint }}
+    <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
   {{ end }}
   {{ .Scratch.Set "Permalink" .Permalink }}
   {{ .Scratch.Set "Title" .Title }}
