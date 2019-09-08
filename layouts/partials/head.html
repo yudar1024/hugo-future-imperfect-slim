@@ -8,9 +8,6 @@
 
   {{ if .Site.Params.highlightjs }}<link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/{{ .Site.Params.highlightjsVersion | default "9.15.10" }}/styles/{{ .Site.Params.highlightjsTheme | default "default" }}.min.css">{{ end }}
-     
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/{{ .Site.Params.highlightjsVersion | default "9.15.10" }}/highlight.min.js"">
-      {{ end }}
   {{ range .Site.Params.cssFiles }}
     {{ if eq . "default" }}
       <link rel="stylesheet" href="{{ "css/normalize.css" | relURL}}">
